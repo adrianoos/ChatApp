@@ -1,24 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { ChakraProvider, theme } from "@chakra-ui/react";
+import { LoginFormPage } from "./components/loginForm/index";
+import { ChatPanel } from "./components/ChatPanel";
+import { Provider as AuthProvider } from "./AuthContext";
 
 function App() {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [nickname, setNickname] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider theme={theme}>
+      <AuthProvider
+        value={{ authenticated, setAuthenticated, nickname, setNickname }}
+      >
+        {authenticated ? <ChatPanel /> : <LoginFormPage />}
+      </AuthProvider>
+    </ChakraProvider>
   );
 }
 
